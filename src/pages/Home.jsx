@@ -24,6 +24,14 @@ const Home = () => {
             .then(res => res.json())
             .then(data => setMyData(data))
     }, [])
+    const handleDelete = item => {
+        fetch(`http://localhost:5000/deletedata/${item._id}`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+            }
+        })
+    }
     return (
         <div>
             <div className='flex justify-center items-center md:my-50 dark:bg-slate-800'>
@@ -89,7 +97,9 @@ const Home = () => {
                                     <td>{data.session}</td>
                                     <td>{data?.current_year}</td>
                                     <td>{data.semester}</td>
-                                    <td>Delete</td>
+                                    <td>
+                                        <button onClick={()=>handleDelete(data)}>Delete</button>
+                                    </td>
                                     <td> <Link to={`/update/${data._id}`}>Update</Link> </td>
                                 </tr>)
                         }
