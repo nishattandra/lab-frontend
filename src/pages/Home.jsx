@@ -8,6 +8,7 @@ const Home = () => {
     const { register, handleSubmit } = useForm();
 
     const [myData, setMyData] = useState([])
+    const [delstate, setDelstate] = useState(false)
 
     const onSubmit = data => {
         fetch("http://localhost:5000/newdata", {
@@ -17,14 +18,16 @@ const Home = () => {
             },
             body: JSON.stringify(data)
         })
+        setDelstate(!delstate);
     };
 
     useEffect(() => {
         fetch("http://localhost:5000/mydata")
             .then(res => res.json())
             .then(data => setMyData(data))
-    }, [])
+    }, [delstate])
     const handleDelete = item => {
+        setDelstate(!delstate);
         fetch(`http://localhost:5000/deletedata/${item._id}`, {
             method: 'DELETE',
             headers: {
